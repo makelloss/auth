@@ -36,7 +36,7 @@ class RegisterSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         validated_data.pop("password_confirm")
-        # create_user зберігає пароль лише в захешованому вигляді
+        # create_user зберігає захешований вигляд
         return User.objects.create_user(**validated_data)
 
 

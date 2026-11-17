@@ -15,7 +15,7 @@ class RegisterView(APIView):
 
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)  # 400 з помилками по кожному полю
+        serializer.is_valid(raise_exception=True)
         user = serializer.save()
         logger.info("New user registered: id=%s username=%s", user.pk, user.username)
         return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
