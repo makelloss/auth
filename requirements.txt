@@ -2,3 +2,8 @@ Django
 djangorestframework
 djangorestframework-simplejwt
 django-cors-headers
+drf-spectacular
+python-decouple
+pytest
+pytest-django
+pytest-cov
