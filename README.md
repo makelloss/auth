@@ -7,15 +7,46 @@ Django + Django REST Framework + `djangorestframework-simplejwt`.
 
 ```bash
 python -m venv venv
-venv\Scripts\activate           # Windows  (Linux/macOS: source venv/bin/activate)
-pip install -r requirements.txt
-python manage.py makemigrations books
+source venv/bin/activate          # Windows: venv\Scripts\activate
+pip install -r requirements.txt   # усі залежності, включно з тестовими
+cp .env.example .env              # Windows: copy .env.example .env
 python manage.py migrate
 python manage.py createsuperuser   # адміністратор (is_staff = true)
 python manage.py runserver
 ```
 
 API: `http://127.0.0.1:8000/api/`
+
+## Змінні середовища
+
+Секрети зберігаються у файлі `.env` (він у `.gitignore`), Django читає їх через `python-decouple`.
+Шаблон — `.env.example`:
+
+| Змінна | Опис |
+|--------|------|
+| `SECRET_KEY` | секретний ключ Django (обов'язково) |
+| `DEBUG` | `True` для локальної розробки |
+| `ALLOWED_HOSTS` | дозволені хости через кому |
+
+## Документація API
+
+- Swagger UI: http://127.0.0.1:8000/api/docs/
+- OpenAPI-схема: http://127.0.0.1:8000/api/schema/ (або `python manage.py spectacular --file schema.yml`)
+
+## Тести
+
+Тести для `/api/books/` лежать у `books/tests/test_books.py`, фікстури — у `conftest.py`.
+Перед запуском має існувати файл `.env`.
+
+```bash
+pytest                                   # запустити тести
+pytest --cov --cov-report=term-missing   # тести + звіт про покриття
+```
+
+## Логування
+
+Логи виводяться в консоль. Рівень INFO пишеться для реєстрації та створення, оновлення й видалення книг.
+WARNING пишеться, коли хтось без прав намагається змінити або видалити книгу. Паролі й токени в логи не потрапляють.
 
 ## Як передавати токен
 

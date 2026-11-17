@@ -1,9 +1,13 @@
+import logging
+
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .serializers import RegisterSerializer, UserSerializer
+
+logger = logging.getLogger(__name__)
 
 
 class RegisterView(APIView):
@@ -13,6 +17,7 @@ class RegisterView(APIView):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)  # 400 з помилками по кожному полю
         user = serializer.save()
+        logger.info("New user registered: id=%s username=%s", user.pk, user.username)
         return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
 
 
